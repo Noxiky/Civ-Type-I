@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nox — Portfolio</title>
+  <meta name="description" content="Portfolio personal de Nox. Diseño minimalista, cinematográfico y misterioso." />
+  <style>
+    :root {
+      /* ==============================
+         EDITA ESTO PRIMERO
+      ============================== */
+      --bg: #080808;
+      --bg-soft: #111111;
+      --panel: rgba(255,255,255,0.05);
+      --line: rgba(255,255,255,0.12);
+      --text: #f5f3ee;
+      --muted: rgba(245,243,238,0.68);
+      --accent: #8d0e16;
+      --accent-2: #c61d2c;
+      --max: 1200px;
+      --radius: 26px;
+      --shadow: 0 20px 80px rgba(0,0,0,0.35);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --title-font: "Arial Narrow", Inter, ui-sans-serif, system-ui, sans-serif;
+
+      /* CONTENIDO RÁPIDO */
+      --name: "NOX";
+      --tagline: "Misterio. Estrategia. Diseño con presencia.";
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(198,29,44,0.18), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,0.06), transparent 20%),
+        radial-gradient(circle at 50% 120%, rgba(141,14,22,0.28), transparent 35%),
+        linear-gradient(180deg, #060606 0%, #090909 40%, #050505 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.045;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      mix-blend-mode: screen;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(4,4,4,0.78), rgba(4,4,4,0.28));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      letter-spacing: 0.22em;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-2), #ffffff);
+      box-shadow: 0 0 24px rgba(198,29,44,0.55);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color 180ms ease, transform 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.26);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.28);
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(141,14,22,0.85), rgba(198,29,44,0.75));
+      border-color: rgba(198,29,44,0.42);
+    }
+
+    main { position: relative; z-index: 1; }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 110px 0 80px;
+      position: relative;
+      overflow: clip;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: end;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--title-font);
+      font-size: clamp(4rem, 11vw, 9rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      position: relative;
+      text-wrap: balance;
+    }
+
+    .hero h1 .outline {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+      opacity: 0.85;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-side {
+      position: relative;
+      min-height: 530px;
+      display: flex;
+      align-items: end;
+      justify-content: end;
+    }
+
+    .hero-card {
+      width: min(100%, 460px);
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(140deg, rgba(198,29,44,0.28), transparent 42%, transparent 58%, rgba(255,255,255,0.04));
+      pointer-events: none;
+    }
+
+    .hero-panel {
+      min-height: 380px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at 75% 20%, rgba(198,29,44,0.35), transparent 25%),
+        linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)),
+        #0b0b0b;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: end;
+      padding: 26px;
+    }
+
+    .hero-panel::before,
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-panel::before {
+      width: 120%;
+      height: 1px;
+      left: -10%;
+      top: 22%;
+      transform: rotate(-12deg);
+      opacity: 0.25;
+    }
+
+    .hero-panel::after {
+      width: 160px;
+      height: 160px;
+      right: -40px;
+      top: -40px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 68%);
+      filter: blur(16px);
+      opacity: 0.24;
+    }
+
+    .hero-meta {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-size: 0.72rem;
+      color: rgba(245,243,238,0.76);
+    }
+
+    .floating-word {
+      position: absolute;
+      font-family: var(--title-font);
+      font-size: clamp(3rem, 9vw, 7rem);
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    .floating-1 { top: 14%; left: 58%; }
+    .floating-2 { bottom: 10%; left: 0; }
+
+    .section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 24px;
+      margin-bottom: 34px;
+      align-items: end;
+    }
+
+    .section-label {
+      color: rgba(245,243,238,0.56);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.76rem;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--title-font);
+      text-transform: uppercase;
+      font-size: clamp(2.1rem, 4vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 260ms ease, border-color 260ms ease, background 260ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.16);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    }
+
+    .about-card {
+      padding: 28px;
+      min-height: 280px;
+    }
+
+    .about-card p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .stat {
+      border-radius: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 124px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-value {
+      font-family: var(--title-font);
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.74rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .project {
+      grid-column: span 4;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 100%);
+      z-index: -1;
+    }
+
+    .project-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(198,29,44,0.28), transparent 18%),
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 40%),
+        linear-gradient(180deg, #151515, #090909);
+    }
+
+    .project-lines {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, transparent 0 49%, rgba(255,255,255,0.07) 49.5%, transparent 50.3%),
+        linear-gradient(20deg, transparent 0 57%, rgba(255,255,255,0.06) 57.4%, transparent 57.9%);
+      opacity: 0.65;
+      z-index: -1;
+      mix-blend-mode: screen;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+      color: rgba(245,243,238,0.7);
+    }
+
+    .project-number {
+      color: rgba(245,243,238,0.48);
+    }
+
+    .project h3 {
+      margin: 14px 0 10px;
+      font-family: var(--title-font);
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 0.96;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      max-width: 8ch;
+    }
+
+    .project p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 34ch;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: rgba(245,243,238,0.82);
+      font-size: 0.82rem;
+    }
+
+    .skills-wrap {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 20px;
+    }
+
+    .skills-panel {
+      padding: 28px;
+      min-height: 360px;
+    }
+
+    .skills-panel p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-top: 0;
+    }
+
+    .skill-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .skill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(245,243,238,0.92);
+    }
+
+    .skill span:last-child {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .timeline {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      display: grid;
+      gap: 8px;
+    }
+
+    .timeline-item strong {
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .timeline-item small,
+    .timeline-item p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .contact-panel {
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .contact-title {
+      margin: 0 0 10px;
+      font-family: var(--title-font);
+      text-transform: uppercase;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .contact-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 640px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    footer {
+      padding: 30px 0 60px;
+      color: rgba(245,243,238,0.5);
+      font-size: 0.9rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms ease, transform 700ms ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .parallax {
+      transform: translateY(0);
+      will-change: transform;
+    }
+
+    .hero h1,
+    .hero-copy,
+    .hero-actions,
+    .hero-card {
+      animation: intro 1.1s ease both;
+    }
+
+    .hero-copy { animation-delay: 0.12s; }
+    .hero-actions { animation-delay: 0.2s; }
+    .hero-card { animation-delay: 0.3s; }
+
+    @keyframes intro {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .section-head,
+      .skills-wrap,
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .projects { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .project { grid-column: auto; }
+      .grid-2,
+      .grid-3 { grid-template-columns: 1fr; }
+      .hero-side { min-height: unset; }
+      .hero-card { width: 100%; }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner { min-height: 66px; }
+      .nav-links { display: none; }
+      .hero { padding-top: 98px; }
+      .hero-copy { font-size: 1rem; }
+      .stats { grid-template-columns: 1fr; }
+      .contact-panel { padding: 24px; }
+      .hero-card,
+      .card,
+      .project { border-radius: 22px; }
+      .floating-word { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    ==========================================================
+    GUÍA RÁPIDA DE EDICIÓN
+    1. Cambia el título en <title>
+    2. Cambia tu nombre en el hero
+    3. Reemplaza los textos de About / Projects / Contact
+    4. Cambia enlaces de redes
+    5. Sube este archivo como index.html a GitHub Pages
+    ==========================================================
+  -->
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="Inicio">
+        <span class="brand-mark"></span>
+        <span>NOX / PORTFOLIO</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="floating-word floating-1 parallax">CONTROL</div>
+      <div class="floating-word floating-2 parallax">MYSTIQUE</div>
+
+      <div class="container hero-grid">
+        <div>
+          <div class="kicker reveal visible">Portfolio / Perfil / Presencia digital</div>
+          <h1>
+            NOX
+            <span class="outline">Portfolio</span>
+          </h1>
+          <p class="hero-copy">
+            Construyo una presencia visual sobria, cinematográfica y precisa. Este sitio está diseñado para sentirse elegante, misterioso y memorable:
+            una mezcla entre lujo silencioso, tensión narrativa y minimalismo contemporáneo.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">Ver proyectos</a>
+            <a class="button" href="#contact">Hablemos</a>
+          </div>
+        </div>
+
+        <div class="hero-side parallax">
+          <div class="hero-card">
+            <div class="hero-panel">
+              <div class="hero-meta">
+                <div>
+                  <div>Creative profile</div>
+                  <strong>Minimal / Grand / Dark</strong>
+                </div>
+                <div style="text-align:right;">
+                  <div>Based in</div>
+                  <strong>Bolivia</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-label">01 / About</div>
+          <div>
+            <h2 class="section-title">Misterio con dirección.</h2>
+            <p class="section-intro">
+              Este espacio sirve como perfil personal, carta de presentación y portfolio. El tono es intencional: elegante, silencioso, estratégico y con una energía que no necesita exagerar para imponerse.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card about-card reveal">
+            <p>
+              Soy <strong>Nox</strong>. Me interesa crear proyectos con presencia, claridad y una identidad fuerte. Me atraen los sistemas bien pensados, el diseño que transmite poder sin ruido y las experiencias digitales que parecen simples, pero se sienten profundas.
+              <br /><br />
+              Este portfolio puede adaptarse para mostrar tu perfil profesional, tus estudios, tus proyectos, tu CV o incluso convertirse en una landing personal mucho más premium.
+            </p>
+          </article>
+
+          <div class="card reveal">
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-value">03</div>
+                <div class="stat-label">Áreas clave</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Ideas por construir</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">01</div>
+                <div class="stat-label">Visión estética</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Curiosidad activa</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-label">02 / Projects</div>
+          <div>
+            <h2 class="section-title">Piezas con peso visual.</h2>
+            <p class="section-intro">
+              Reemplaza estos proyectos con los tuyos. Puedes poner trabajos de diseño, dashboards, investigaciones, branding, business cases, apps, portfolios o cualquier cosa que quieras destacar.
+            </p>
+          </div>
+        </div>
+
+        <div class="projects">
+          <article class="card project reveal">
+            <div class="project-bg"></div>
+            <div class="project-lines"></div>
+            <div>
+              <div class="project-top">
+                <span>Case / 01</span>
+                <span class="project-number">[A]</span>
+              </div>
+              <h3>Signal<br />Systems</h3>
+              <p>
+                Proyecto conceptual enfocado en estructura, datos, lectura visual y narrativa sobria. Ideal para mostrar análisis, BI o estrategia.
+              </p>
+            </div>
+            <div>
+              <div class="tags">
+                <span class="tag">Data</span>
+                <span class="tag">Strategy</span>
+                <span class="tag">Visual Story</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal">
+            <div class="project-bg"></div>
+            <div class="project-lines"></div>
+            <div>
+              <div class="project-top">
+                <span>Case / 02</span>
+                <span class="project-number">[B]</span>
+              </div>
+              <h3>Silent<br />Branding</h3>
+              <p>
+                Una propuesta de identidad digital premium: tensión, minimalismo, ritmo tipográfico y un acabado editorial de alto contraste.
+              </p>
+            </div>
+            <div>
+              <div class="tags">
+                <span class="tag">Brand</span>
+                <span class="tag">UX</span>
+                <span class="tag">Editorial</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal">
+            <div class="project-bg"></div>
+            <div class="project-lines"></div>
+            <div>
+              <div class="project-top">
+                <span>Case / 03</span>
+                <span class="project-number">[C]</span>
+              </div>
+              <h3>Future<br />Presence</h3>
+              <p>
+                Un espacio para mostrar visión personal, ambición, dirección creativa y proyectos que todavía están por salir, pero ya tienen identidad.
+              </p>
+            </div>
+            <div>
+              <div class="tags">
+                <span class="tag">Portfolio</span>
+                <span class="tag">Identity</span>
+                <span class="tag">Motion</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-label">03 / Skills + Journey</div>
+          <div>
+            <h2 class="section-title">Capacidad con atmósfera.</h2>
+            <p class="section-intro">
+              Aquí puedes mostrar tus fortalezas reales y, al mismo tiempo, mantener el estilo cinematográfico del sitio. Cambia todo por tus competencias y experiencia.
+            </p>
+          </div>
+        </div>
+
+        <div class="skills-wrap">
+          <article class="card skills-panel reveal">
+            <p>
+              Tu perfil puede sentirse sofisticado sin verse recargado. La clave es combinar claridad estructural con una estética firme. Mantén pocas palabras, pero con intención.
+            </p>
+
+            <div class="skill-list">
+              <div class="skill"><span>Diseño visual</span><span>Minimal / High Contrast</span></div>
+              <div class="skill"><span>Narrativa digital</span><span>Calma / Presencia / Tensión</span></div>
+              <div class="skill"><span>Portfolio strategy</span><span>Selección / Orden / Impacto</span></div>
+              <div class="skill"><span>Frontend base</span><span>HTML / CSS / JS</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="timeline">
+              <div class="timeline-item">
+                <small>Phase 01</small>
+                <strong>Define tu identidad</strong>
+                <p>Una línea estética clara vale más que diez estilos mezclados. Decide qué quieres transmitir antes de agregar contenido.</p>
+              </div>
+              <div class="timeline-item">
+                <small>Phase 02</small>
+                <strong>Selecciona tus piezas</strong>
+                <p>Escoge pocos proyectos, pero fuertes. Que cada uno tenga intención, resultado y una lectura visual limpia.</p>
+              </div>
+              <div class="timeline-item">
+                <small>Phase 03</small>
+                <strong>Hazlo memorable</strong>
+                <p>Una interacción sutil, una buena composición y una voz consistente hacen que tu web se quede en la mente.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <article class="card contact-panel reveal">
+          <div>
+            <div class="section-label">04 / Contact</div>
+            <h2 class="contact-title">Ready when the moment calls.</h2>
+            <p class="contact-copy">
+              Aquí pon tu email, LinkedIn, GitHub, Behance, Instagram o cualquier canal donde quieras que te contacten. El objetivo es cerrar con fuerza, no solo con información.
+            </p>
+            <div class="contact-links">
+              <a class="button primary" href="mailto:tuemail@correo.com">tuemail@correo.com</a>
+              <a class="button" href="https://github.com/tuusuario" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="button" href="https://www.linkedin.com/in/tuusuario" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+          </div>
+
+          <a class="button" href="#top">Volver arriba</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Nox. Built for presence.
+    </div>
+  </footer>
+
+  <script>
+    // Año automático
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Parallax suave
+    const parallaxElements = document.querySelectorAll('.parallax');
+    const onScroll = () => {
+      const y = window.scrollY;
+      parallaxElements.forEach((el, index) => {
+        const speed = index % 2 === 0 ? 0.06 : 0.1;
+        el.style.transform = `translateY(${y * speed}px)`;
+      });
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
